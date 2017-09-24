@@ -1,0 +1,8 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp
+      suffix: .jsp
+  # 不使用velocity
+  velocity:
+    enabled: false

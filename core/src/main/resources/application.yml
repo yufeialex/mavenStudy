@@ -1,0 +1,100 @@
+# application settings
+drap:
+  api:
+    # API接口url前缀
+    base-path: /api
+  cache:
+    expire:
+      # 是否启动
+      duration: -1
+      # 触发器时间
+      maximumSize: -1
+
+proxy.client: kmcms
+
+server:
+  port: 8080
+
+spring:
+  profiles:
+    # 激活配置文件，优先级 dev > web 默认(application.yml)
+    active: product,dev
+    include: web
+  http:
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+    ####################
+    # 上传文件大小限制
+    ####################
+    multipart:
+      max-file-size: 1024Mb
+      max-request-size: 1024Mb
+
+  ####################
+  # 数据库设置
+  ####################
+  datasource:
+    # 禁止初始化数据库，执行 classpath:schema.sql,data.sql
+    initialize: false
+    sql-script-encoding: UTF-8
+#    tomcat:
+    # 连接池设置
+    initial-size: 10
+    max-active: 200
+    max-idle: 50
+    min-idle: 8
+    max-wait: 10000
+    test-while-idle: true
+    test-on-borrow: true
+    test-on-return: true
+    validation-query: SELECT 1
+    validation-query-timeout: 1
+    time-between-eviction-runs-millis: 30000
+    num-tests-per-eviction-run: 50
+
+  data:
+    rest:
+      base-path: /rest
+      default-page-size: 10
+
+# 关闭数据库初始化
+flyway.enabled: true
+
+####################
+# 日志
+####################
+logging:
+  # 日志文件输出目录
+  path: ./logs
+  # 日志级别
+  level:
+    com.founder.common.config.proxy: INFO
+    org.hibernate: WARN
+    org.springframework: WARN
+    org.apache: WARN
+    springfox: WARN
+
+####################
+# neo4j
+####################
+neo4j:
+  basePackages:
+    repository: com.founder.cms.ontology.dao.neo
+    model: com.founder.cms.ontology.model.neo
+
+###############
+# API 文档
+###############
+swagger2:
+  title: 知识体系管理系统 API
+  description: 全部组件 API 详情
+  version: V1.0
+  terms-of-service-url:
+  contact:
+    name: 北大方正电子有限公司
+    url:
+    email:
+  license:
+  license-url:

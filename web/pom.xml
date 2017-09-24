@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>studyMaven</artifactId>
+        <groupId>com.founder.cms</groupId>
+        <version>3.1.2-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>studyMaven-web</artifactId>
+    <packaging>war</packaging>
+
+
+    <!--这些自定义属性用于默认环境的使用，如果是不同环境的都写到pom里面，可以用profiles区分-->
+    <properties>
+        <proxy_server>http://172.19.57.133:28080/prodb</proxy_server>
+        <mongodb_host>172.19.57.133</mongodb_host>
+        <mongodb_port>27017</mongodb_port>
+        <mongodb_username>root</mongodb_username>
+        <mongodb_password>Founder123</mongodb_password>
+        <mongodb_database>admin</mongodb_database>
+        <datasource_url>jdbc:jtds:sqlserver://172.19.57.155:1433;DatabaseName=KMCMS_TRUNK</datasource_url>
+        <datasource_username>sa</datasource_username>
+        <datasource_password>Founder123</datasource_password>
+        <neo4j_url>http://172.19.57.155:7474/db/data/</neo4j_url>
+        <neo4j_username>neo4j</neo4j_username>
+        <neo4j_password>founder123</neo4j_password>
+    </properties>
+
+    <profiles>
+        <profile>
+            <!--使用mvn clean install -Pdev就使用这里面的-->
+            <!--除了使用命令行，还可以1.在settings文件中显式激活；2.使用系统属性激活；
+            3.操作系统环境激活；4.文件存在与否激活；5.默认激活-->
+            <!--现在这是POM中的profile，也可在settings中设置-->
+            <id>dev</id>
+            <properties>
+
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.founder.cms</groupId>
+            <artifactId>studyMaven-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.founder.cms</groupId>
+            <artifactId>studyMaven-sys</artifactId>
+        </dependency>
+
+        <!-- Tomcat JSP 支持 -->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>2.4</version>
+            <!--classifier元素用来帮助定义构件输出的一些附属构件。附属构件与主构件对应，比如主构件是 kimi-app-2.0.0.jar 该项目可能还会通过使用一些插件生成-->
+            <!--如 kimi-app-2.0.0-javadoc.jar 、 kimi-app-2.0.0-sources.jar 这样两个附属构件。这时候，-->
+            <!--javadoc,sources就是这两个附属构件的classifier,这样附属构件也就拥有了自己唯一的坐标。-->
+            <!--不能直接定义项目的classifer,因为附属构件不是项目直接默认生成的，而是由附加的插件帮助生成的。-->
+            <!--如果不定义classifier的话就maven就会报错说找不到jar文件-->
+            <classifier>jdk15</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <packagingExcludes>WEB-INF/classes/application-dev.yml,WEB-INF/classes/static/ui/</packagingExcludes>
+                    <!--这个是为web资源目录开启过滤，web资源不同与一般资源-->
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/main/webapp</directory>
+                            <includes>
+                                <include>**/*.css</include>
+                                <include>**/*.js</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!--插件目标与生命周期的自定义绑定-->
+            <!--有很多插件的目标在编写时已经定义了默认绑定阶段-->
+            <!--多个插件目标绑定到同意个阶段的时候，插件生命的先后顺序决定了目标的执行顺序-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <executions>
+                    <!--配置一个执行任务，将本插件的build目标绑定到maven的package阶段-->
+                    <execution>
+                        <id>build</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!--这种配置方式是POM中插件全局配置，除此还有两种：1，命令行插件配置；2.POM中插件任务配置，就是在execution里面配置-->
+                <!--命令行用插件的时候，用目标前缀就行，插件GAV的寻找由maven来做-->
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <!--这里用的都是POM属性-->
+                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.war</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

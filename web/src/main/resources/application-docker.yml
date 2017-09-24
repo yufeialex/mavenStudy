@@ -1,0 +1,97 @@
+##############################################
+#
+# 开发环境，每天发布-配置文件
+#
+##############################################
+
+proxy:
+  enabled: ${PROXY_FLAG:false}
+  server: ${PROXY_URL:http://${PROXY_IP:prodb}:${PROXY_PORT:28080}/prodb}
+
+server:
+  port: ${SERVER_PORT:8080}
+  context-path: /kmcms
+
+spring:
+  ####################
+  # 关系数据库设置
+  ####################
+  datasource:
+    # 数据库连接
+    driver-class-name: net.sourceforge.jtds.jdbc.Driver
+    url: ${DB_URL:jdbc:jtds:sqlserver://${DB_IP:sqlserver}:${DB_PORT:1433};DatabaseName=${DB_DATABASE:KMCMS_TRUNK}}
+    username: ${DB_UESRNAME:sa}
+    password: ${DB_PASSWORD:Founder123}
+
+  ####################
+  # mongodb
+  ####################
+  data:
+    mongodb:
+      host: ${MONGO_IP:mongo}
+      port: ${MONGO_PORT:27017}
+      username: ${MONGO_USERNAME:root}
+      password: ${MONGO_PASSWORD:Founder123}
+      database: admin
+      authenticationDatabase: admin
+
+####################
+# neo4j
+####################
+neo4j:
+  uri: ${NEO4J_URL:http://172.19.57.155:7474/db/data/}
+  user: ${NEO4J_USERNAME:neo4j}
+  password: ${NEO4J_PASSWORD:founder123}
+
+####################
+# gstore
+####################
+gstore:
+  uri: ${GSTORE_IP:172.19.57.133}
+  port: ${GSTORE_PORT:9000} #3305
+  dbname: ${GSTORE_DATABASE:kmcmsTrunk}
+  toggle: true
+
+####################
+# 设置领域和领域本体
+####################
+#下面是国防工业风格
+#cihai:
+#  domainId: 284
+#  ontologyId: 160
+#下面是辞海风格
+cihai:
+  domainId: 230
+  ontologyId: 106
+
+####################
+# 自动化抽取
+####################
+automatic:
+  # 服务器
+  ftp:
+    username: ${AUTOMATIC_FTP_USERNAME:root}
+    password: ${AUTOMATIC_FTP_PASSWORD:1}
+    host: ${AUTOMATIC_FTP_IP:172.19.36.40}
+    port: ${AUTOMATIC_FTP_PORT:21}
+    destDir: ${AUTOMATIC_FTP_DIR:automatic}
+  server: ${AUTOMATIC_SERVER:http://172.19.41.246}
+  relationPort: ${AUTOMATIC_RELATION_PORT:12345}
+  entityPort: ${AUTOMATIC_ENTITY_PORT:11111}
+  classifyPort: ${AUTOMATIC_CLASSIFY_PORT:12355}
+
+####################
+# 机器学习模型所需要的初始阈值
+####################
+threshold:
+  label: 10000
+  entity: 10000
+  relation: 10000
+  labelStep: 10
+  entityStep: 10
+  relationStep: 10
+
+# 公安配置首页展示知识元
+police:
+  ontologyId: 274 #公安领域本体Id
+  initKps: '公安工作,犯罪学,刑事案件,刑法,治安'

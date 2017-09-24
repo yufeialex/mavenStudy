@@ -1,0 +1,117 @@
+##############################################
+#
+# 开发阶段-配置文件
+#
+##############################################
+
+proxy:
+  enabled: false
+  server: http://172.19.57.133:28080/prodb
+
+spring:
+  jpa:
+    # 显示SQL
+    show-sql: false
+    # 格式化SQL
+    properties.hibernate.format_sql: true
+  ####################
+  # 关系数据库设置
+  ####################
+  datasource:
+    # 数据库连接
+    driver-class-name: net.sourceforge.jtds.jdbc.Driver
+    url: jdbc:jtds:sqlserver://172.19.57.155:1433;DatabaseName=KMCMS_TRUNK
+    username: sa
+    password: Founder123
+
+  ####################
+  # mongodb
+  ####################
+  data:
+    mongodb:
+      # 服务器
+      host: 172.19.57.133
+      port: 27017
+      username: root
+      password: Founder123
+      database: admin
+      authenticationDatabase: admin
+
+####################
+# neo4j
+####################
+neo4j:
+  # 服务器
+  uri: http://172.19.57.155:7474/db/data/
+  user: neo4j
+  password: founder123
+
+####################
+# gstore
+####################
+gstore:
+  uri: 172.19.57.133
+  port: 9000 #3305
+  dbname: kmcmsTrunk
+  toggle: true
+
+####################
+# 设置领域和领域本体
+####################
+#下面是国防工业风格
+#cihai:
+#  domainId: 284
+#  ontologyId: 160
+#下面是辞海风格
+cihai:
+  domainId: 230
+  ontologyId: 106
+
+####################
+# 自动化抽取
+####################
+automatic:
+  # 服务器
+  ftp:
+    username: root
+    password: 1
+    host: 172.19.36.40
+    port: 21
+    destDir: automatic
+  server: http://172.19.41.246
+  relationPort: 12345
+  entityPort: 11111
+  classifyPort: 12355
+
+####################
+# 机器学习模型所需要的初始阈值
+####################
+threshold:
+  label: 10000
+  entity: 10000
+  relation: 10000
+  labelStep: 10
+  entityStep: 10
+  relationStep: 10
+
+# server settings
+server:
+  port: 8888
+  context-path: /kmcms/
+
+drap:
+  # 登录校验开关
+  login.flag: true
+
+# 日志设置
+logging:
+  # 日志文件输出目录
+  path: ${java.io.tmpdir}/logs
+  # 日志级别
+  level:
+    com.founder: DEBUG
+
+# 公安配置首页展示知识元
+police:
+  ontologyId: 274 #公安领域本体Id
+  initKps: '公安工作,犯罪学,刑事案件,刑法,治安'
