@@ -53,7 +53,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--范围与provided一直，但是必须用systemPath显示指定路径，不可移植，谨慎使用-->
+        <!--范围与provided一致，但是必须用systemPath显示指定路径，不可移植，谨慎使用-->
         <dependency>
             <groupId>javax.sql</groupId>
             <artifactId>jdbc-stdext</artifactId>

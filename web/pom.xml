@@ -35,13 +35,17 @@
             <!--现在这是POM中的profile，也可在settings中设置-->
             <id>dev</id>
             <properties>
-
+                <proxy_server>http://172.19.57.133:28080/prodb</proxy_server>
+                <mongodb_host>172.19.57.133</mongodb_host>
+                <mongodb_port>27017</mongodb_port>
             </properties>
         </profile>
         <profile>
             <id>test</id>
             <properties>
-
+                <proxy_server>http://1dfgsdg72.19.57.133:28080/prodb</proxy_server>
+                <mongodb_host>172.19.57dd.133</mongodb_host>
+                <mongodb_port>270d17</mongodb_port>
             </properties>
         </profile>
     </profiles>
