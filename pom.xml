@@ -77,6 +77,7 @@
         <module>core</module>
         <module>sys</module>
         <module>web</module>
+        <module>studyMaven22</module>
     </modules>
 
     <!--maven内置3大属性支持灵活构建，即属性、Profile和资源过滤-->
