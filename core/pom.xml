@@ -15,89 +15,8 @@
     <artifactId>studyMaven-core</artifactId>
     <!--在console输出的时候用名字，没有就用artifactID-->
     <name>studyMaven-core</name>
-    <description>(必选) 知识服务核心功能</description>
 
     <dependencies>
-        <!-- 范围依赖，作用：
-             1、控制依赖与3种classpath，编译、测试、运行的关系，默认是compile，3种都有效
-             2、影响传递依赖，具体参考笔记中图片。
-             3、依赖调节：原则一，路径最近者优先；原则二：第一声明者优先。-->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${servlet.version}</version>
-            <!--编译和测试时候用，运行时候容器已经提供了-->
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <!--还有一个典型例子是JDBC驱动-->
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!--范围与provided一致，但是必须用systemPath显示指定路径，不可移植，谨慎使用-->
-        <dependency>
-            <groupId>javax.sql</groupId>
-            <artifactId>jdbc-stdext</artifactId>
-            <version>2.0</version>
-            <scope>system</scope>
-            <systemPath>${java.home}/lib/rt.jar</systemPath>
-        </dependency>
-
-
-        <!-- 可选依赖 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.10</version>
-            <!--依赖我的项目不会自动依赖这个包，需要自己引入-->
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>8.4-701.jdbc3</version>
-            <!--我的项目可能是个数据库工具，但是实际使用什么数据库由使用者决定-->
-            <!--理想情况不应该使用可选依赖，应该符合单一职责性原则，这种情况就建立两个-->
-            <optional>true</optional>
-        </dependency>
-
-        <!--排除依赖 -->
-        <!--两种原因：-->
-        <!--1.这个包引用了SNAPSHOT版本，我剔除后自己使用稳定版本-->
-        <!--2.这个包应用了没有版权的包，我使用开源的包-->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-neo4j-rest</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.neo4j.test</groupId>
-                    <artifactId>neo4j-harness</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-
-        <!-- gstore -->
-        <dependency>
-            <groupId>edu.pku</groupId>
-            <artifactId>GstoreJavaAPI</artifactId>
-        </dependency>
-
-        <!-- spring boot -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
 
     </dependencies>
 

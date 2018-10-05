@@ -6,6 +6,7 @@
         <version>3.1.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>studyMaven-web</artifactId>
     <packaging>war</packaging>
@@ -51,35 +52,10 @@
     </profiles>
 
     <dependencies>
+        <!--项目中的模块相互依赖-->
         <dependency>
             <groupId>com.founder.cms</groupId>
             <artifactId>studyMaven-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.founder.cms</groupId>
-            <artifactId>studyMaven-sys</artifactId>
-        </dependency>
-
-        <!-- Tomcat JSP 支持 -->
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <version>2.4</version>
-            <!--classifier元素用来帮助定义构件输出的一些附属构件。附属构件与主构件对应，比如主构件是 kimi-app-2.0.0.jar 该项目可能还会通过使用一些插件生成-->
-            <!--如 kimi-app-2.0.0-javadoc.jar 、 kimi-app-2.0.0-sources.jar 这样两个附属构件。这时候，-->
-            <!--javadoc,sources就是这两个附属构件的classifier,这样附属构件也就拥有了自己唯一的坐标。-->
-            <!--不能直接定义项目的classifer,因为附属构件不是项目直接默认生成的，而是由附加的插件帮助生成的。-->
-            <!--如果不定义classifier的话就maven就会报错说找不到jar文件-->
-            <classifier>jdk15</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
