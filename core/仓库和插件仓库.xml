@@ -8,32 +8,39 @@
 
     <!--pom的依赖仓库和插件仓库，分发信息-->
 
-    <!--发现依赖和扩展的远程仓库列表。-->
+    <!--用于配置远程仓库信息，这里可以配置公司的私服地址；或者为了下载不在中央仓库的jar包，比如sigar-->
+    <!--如果是私服还有私服的认证信息，那个要配置在setting.xml里面-->
+    <!--这个配置只对当前项目有效，如果全局有效，在setting.xml里面配置profile-->
     <repositories>
-        <!--包含需要连接到远程仓库的信息-->
         <repository>
-            <!--如何处理远程仓库里发布版本的下载-->
-            <releases>
-                <!--true或者false表示该仓库是否为下载某种类型构件（发布版，快照版）开启。 -->
-                <enabled/>
-                <!--该元素指定更新发生的频率。Maven会比较本地POM和远程POM的时间戳。这里的选项是：always（一直），daily（默认，每日），interval：X（这里X是以分钟为单位的时间间隔），或者never（从不）。-->
-                <updatePolicy/>
-                <!--当Maven验证构件校验文件失败时该怎么做：ignore（忽略），fail（失败），或者warn（警告）。-->
-                <checksumPolicy/>
-            </releases>
-            <!-- 如何处理远程仓库里快照版本的下载。有了releases和snapshots这两组配置，POM就可以在每个单独的仓库中，为每种类型的构件采取不同的 策略。例如，可能有人会决定只为开发目的开启对快照版本下载的支持。参见repositories/repository/releases元素 -->
-            <snapshots>
-                <enabled/>
-                <updatePolicy/>
-                <checksumPolicy/>
-            </snapshots>
+            <!--需要唯一，中央仓库是用central，这里id与setting.xml里面不一致，说明下载应该不需要密码，但是部署需要-->
             <!--远程仓库唯一标识符。可以用来匹配在settings.xml文件里配置的远程仓库-->
-            <id>banseon-repository-proxy</id>
+            <id>founder</id>
             <!--远程仓库名称-->
             <name>banseon-repository-proxy</name>
+            <!--也可以是其他协议，浏览器可访问-->
             <!--远程仓库URL，按protocol://hostname/path形式-->
-            <url>http://192.168.1.169:9999/repository/</url>
-            <!-- 用于定位和排序构件的仓库布局类型-可以是default（默认）或者legacy（遗留）。Maven 2为其仓库提供了一个默认的布局；然 而，Maven 1.x有一种不同的布局。我们可以使用该元素指定布局是default（默认）还是legacy（遗留）。-->
+            <url>http://fzkb.founder.com.cn/nexus/content/groups/public/</url>
+            <!--为false表示不能从这里下载稳定版本-->
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+
+            <!-- 如何处理远程仓库里快照版本的下载。有了releases和snapshots这两组配置，POM就可以在每个单独的仓库中，为每种类型的构件采取不同的策略。
+            例如，可能有人会决定只为开发目的开启对快照版本下载的支持。参见repositories/repository/releases元素 -->
+            <snapshots>
+                <!--true或者false表示该仓库是否为下载某种类型构件（发布版，快照版）开启。 -->
+                <enabled>true</enabled>
+                <!--从远程仓库检查更新的频率，Maven会比较本地POM和远程POM的时间戳。默认daily，还有never,-->
+                <!--always:每次构建都检查更新-->
+                <!--interval:X,每隔X分钟检查一次-->
+                <updatePolicy>daily</updatePolicy>
+                <!--warn：构建时候输出警告-->
+                <!--fail：遇到校验和错误就失败-->
+                <checksumPolicy>ignore</checksumPolicy>
+            </snapshots>
+            <!-- 用于定位和排序构件的仓库布局类型-可以是default（默认）或者legacy（遗留）。Maven 2为其仓库提供了一个默认的布局；
+                然而，Maven 1.x有一种不同的布局。我们可以使用该元素指定布局是default（默认）还是legacy（遗留）。-->
             <layout>default</layout>
         </repository>
     </repositories>
@@ -42,20 +49,18 @@
     <pluginRepositories>
         <!--包含需要连接到远程插件仓库的信息.参见repositories/repository元素-->
         <pluginRepository>
-            ......
-        </pluginRepository>
-    </pluginRepositories>
-
-
-    <pluginRepositories>
-        <pluginRepository>
             <id>founder</id>
             <url>http://fzkb.founder.com.cn/nexus/content/groups/public/</url>
         </pluginRepository>
     </pluginRepositories>
 
+    <!--项目分发信息，在执行mvn deploy后表示要发布的位置。有了这些信息就可以把网站部署到远程服务器或者把构件部署到远程仓库。-->
     <distributionManagement>
+        <!--部署项目产生的构件到远程仓库需要的信息-->
         <repository>
+            <!--是分配给快照一个唯一的版本号（由时间戳和构建流水号）？还是每次都使用相同的版本号？参见repositories/repository元素-->
+            <!--<uniqueVersion/>-->
+
             <!--这里id与setting.xml里面一致，说明下载部署需要密码-->
             <!--部署时候用deploy插件-->
             <id>nexus-releases</id>
@@ -63,32 +68,13 @@
             <name>nexus distribution releases repository</name>
             <url>http://fzkb.founder.com.cn/nexus/content/repositories/releases/</url>
         </repository>
+
         <snapshotRepository>
             <id>nexus-snapshots</id>
             <name>nexus distribution snapthot repository</name>
             <url>http://fzkb.founder.com.cn/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
-    </distributionManagement>
 
-    <!--项目分发信息，在执行mvn deploy后表示要发布的位置。有了这些信息就可以把网站部署到远程服务器或者把构件部署到远程仓库。-->
-    <distributionManagement>
-        <!--部署项目产生的构件到远程仓库需要的信息-->
-        <repository>
-            <!--是分配给快照一个唯一的版本号（由时间戳和构建流水号）？还是每次都使用相同的版本号？参见repositories/repository元素-->
-            <uniqueVersion/>
-            <id>banseon-maven2</id>
-            <name>banseon maven2</name>
-            <url>file://${basedir}/target/deploy</url>
-            <layout/>
-        </repository>
-        <!--构件的快照部署到哪里？如果没有配置该元素，默认部署到repository元素配置的仓库，参见distributionManagement/repository元素-->
-        <snapshotRepository>
-            <uniqueVersion/>
-            <id>banseon-maven2</id>
-            <name>Banseon-maven2 Snapshot Repository</name>
-            <url>scp://svn.baidu.com/banseon:/usr/local/maven-snapshot</url>
-            <layout/>
-        </snapshotRepository>
         <!--部署项目的网站需要的信息-->
         <site>
             <!--部署位置的唯一标识符，用来匹配站点和settings.xml文件里的配置-->
@@ -100,8 +86,10 @@
                 scp://svn.baidu.com/banseon:/var/www/localhost/banseon-web
             </url>
         </site>
+
         <!--项目下载页面的URL。如果没有该元素，用户应该参考主页。使用该元素的原因是：帮助定位那些不在仓库里的构件（由于license限制）。-->
         <downloadUrl/>
+
         <!--如果构件有了新的group ID和artifact ID（构件移到了新的位置），这里列出构件的重定位信息。-->
         <relocation>
             <!--构件新的group ID-->
@@ -114,7 +102,7 @@
             <message/>
         </relocation>
         <!-- 给出该构件在远程仓库的状态。不得在本地项目中设置该元素，因为这是工具自动更新的。有效的值有：none（默认），converted（仓库管理员从 Maven 1 POM转换过来），partner（直接从伙伴Maven 2仓库同步过来），deployed（从Maven 2实例部 署），verified（被核实时正确的和最终的）。-->
-        <status/>
+        <!--<status/>-->
     </distributionManagement>
 
 </project>

@@ -70,7 +70,8 @@
             <!--构建配置的唯一标识符。即用于命令行激活，也用于在继承时合并具有相同标识符的profile。-->
             <id>test</id>
             <!--自动触发profile的条件逻辑。Activation是profile的开启钥匙。profile的力量来自于它能够在某些特定的环境中自动使用某些特定的值；
-            这些环境通过activation元素指定。activation元素并不是激活profile的唯一方式。通过命令行也可以，-P codecoverage -->
+            这些环境通过activation元素指定。activation元素并不是激活profile的唯一方式。通过命令行也可以，-P codecoverage
+            显式激活某个profile，在setting.xml中配置-->
             <activation>
                 <!--profile默认是否激活的标志-->
                 <activeByDefault>false</activeByDefault>
@@ -140,13 +141,19 @@
                             <include>**/application*.yaml</include>
                             <include>**/application*.properties</include>
                         </includes>
-                        <!--排除的模式列表，例如**/*.xml-->
+                    </resource>
+
+                    <resource>
+                        <directory>${basedir}/src/main/resources</directory>
+                        <filtering>false</filtering>
+                        <!--双重否定，除了下面几个都不过滤。上面指定过滤的，这里指定不过滤的-->
                         <excludes>
                             <exclude>**/application*.yml</exclude>
                             <exclude>**/application*.yaml</exclude>
                             <exclude>**/application*.properties</exclude>
                         </excludes>
                     </resource>
+
                 </resources>
 
                 <!--这个元素描述了单元测试相关的所有资源路径，例如和单元测试相关的属性文件。-->

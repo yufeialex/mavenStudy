@@ -162,29 +162,4 @@
         <url>http://www.baidu.com/banseon</url>
     </organization>
 
-    <!--用于配置远程仓库信息，这里可以配置公司的私服地址-->
-    <!--如果是私服还有私服的认证信息，那个要配置在setting.xml里面-->
-    <!--这个配置只对当前项目有效，如果全局有效，在setting.xml里面配置profile-->
-    <repositories>
-        <repository>
-            <!--需要唯一，中央仓库是用central，这里id与setting.xml里面不一致，说明下载应该不需要密码，但是部署需要-->
-            <id>founder</id>
-            <!--也可以是其他协议，浏览器可访问-->
-            <url>http://fzkb.founder.com.cn/nexus/content/groups/public/</url>
-            <!--为false表示不能从这里下载稳定版本-->
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <!--从远程仓库检查更新的频率，默认daily，还有never,-->
-                <!--always:每次构建都检查更新-->
-                <!--interval:X,每隔X分钟检查一次-->
-                <updatePolicy>daily</updatePolicy>
-                <!--warn：构建时候输出警告-->
-                <!--fail：遇到校验和错误就失败-->
-                <checksumPolicy>ignore</checksumPolicy>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>

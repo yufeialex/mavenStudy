@@ -15,6 +15,7 @@
         <version>1.3.5.RELEASE</version>
         <!-- 父项目的pom.xml文件的相对路径。相对路径允许你选择一个不同的路径。默认值是../pom.xml。Maven首先在构建当前项目的地方寻找父项目的pom，
         其次在文件系统的这个位置（relativePath位置），然后在本地仓库，最后在远程仓库寻找父项目的pom。-->
+        <!--从仓库下载，没有相对路径；因为springboot也不是你项目中的，没办法指出相对路径-->
         <relativePath/>
     </parent>
     <!--声明项目描述符遵循哪一个POM模型版本。模型本身的版本很少改变，虽然如此，但它仍然是必不可少的，这是为了当Maven引入了新的特性或者其他模型变更的时候，确保稳定性。-->
@@ -55,6 +56,7 @@
 
         <!--统一源代码与编译输出的JDK版本-->
         <!--下面的maven-compiler-plugin和这3个属性配置的效果是一样的-->
+        <!--如果项目没写后两个也可以，那是因为在父pom里面定义了。（有时候是springboot的父pom）-->
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
