@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <groupId>com.founder.cms</groupId>
+    <artifactId>studyMaven-web</artifactId>
+    <version>3.1.2-SNAPSHOT</version>
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--pom的build与profile-->
+
+    <!--构建项目需要的信息，除了base build有的标签，再除了6个特别的标签，剩下的分成“目录”和“扩展”两组。-->
+    <!--这个build是整个项目起作用的，称为project build。相应的，在profile里的build就是profile build，也是base build。可用的标签比这个少-->
+    <build>
+        <!--如下的目录组都是必须在父pom中设定，不能被profile影响的-->
+
+        <!--该元素设置了项目源码目录，当构建项目的时候，构建系统会编译目录里的源码。该路径是相对于pom.xml的相对路径。-->
+        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <!--过时了！！该元素设置了项目脚本源码目录，该目录和源码目录不同：绝大多数情况下，该目录下的内容会被拷贝到输出目录(因为脚本是被解释的，而不是被编译的)。-->
+        <scriptSourceDirectory>${basedir}/src/main/scripts</scriptSourceDirectory>
+        <!--该元素设置了项目单元测试使用的源码目录，当测试项目的时候，构建系统会编译目录里的源码。该路径是相对于pom.xml的相对路径。-->
+        <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
+        <!--被编译过的应用程序class文件存放的目录。-->
+        <outputDirectory>${basedir}/target/classes</outputDirectory>
+        <!--被编译过的测试class文件存放的目录。-->
+        <testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
+
+        <!--使用来自该项目的一系列构建扩展-->
+        <extensions>
+            <!--描述使用到的构建扩展。-->
+            <extension>
+                <!--下面的例子是add an ftp provider for the Wagon transport mechanism-->
+                <!--构建扩展的groupId-->
+                <groupId>org.apache.maven.wagon</groupId>
+                <!--构建扩展的artifactId-->
+                <artifactId>wagon-ftp</artifactId>
+                <!--构建扩展的版本-->
+                <version>1.0-alpha-3</version>
+            </extension>
+        </extensions>
+
+        <pluginManagement>
+            <!--maven有三个默认生命周期，生命周期有多个阶段。
+            maven还有插件，每个插件有多个功能，叫做目标。
+            可以把生命周期的阶段和插件的目标绑定，这些工作maven给我们做好了大部分，
+            基本不用我们再绑定了。-->
+            <plugins>
+                <plugin>
+                    <groupId>com.mysema.maven</groupId>
+                    <artifactId>apt-maven-plugin</artifactId>
+                    <version>1.1.3</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>0.4.13</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                    <artifactId>launch4j-maven-plugin</artifactId>
+                    <version>1.7.11</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!--指定项目构建时的不同profile，哪个profile被激活，就按照哪个profile的设置去处理-->
+    <profiles>
+        <!--根据环境参数或命令行参数激活某个构建处理-->
+        <profile>
+            <!--构建配置的唯一标识符。即用于命令行激活，也用于在继承时合并具有相同标识符的profile。-->
+            <id>test</id>
+            <!--自动触发profile的条件逻辑。Activation是profile的开启钥匙。profile的力量来自于它能够在某些特定的环境中自动使用某些特定的值；
+            这些环境通过activation元素指定。activation元素并不是激活profile的唯一方式。通过命令行也可以，-P codecoverage -->
+            <activation>
+                <!--profile默认是否激活的标志-->
+                <activeByDefault>false</activeByDefault>
+                <!--当匹配的jdk被检测到，profile被激活。例如，1.4激活JDK1.4，1.4.0_2，而!1.4激活所有版本不是以1.4开头的JDK。-->
+                <jdk>1.5</jdk>
+                <!--当匹配的操作系统属性被检测到，profile被激活。os元素可以定义一些操作系统相关的属性。-->
+                <os>
+                    <!--激活profile的操作系统的名字-->
+                    <name>Windows XP</name>
+                    <!--激活profile的操作系统所属家族(如 'windows')-->
+                    <family>Windows</family>
+                    <!--激活profile的操作系统体系结构 -->
+                    <arch>x86</arch>
+                    <!--激活profile的操作系统版本-->
+                    <version>5.1.2600</version>
+                </os>
+                <!--如果Maven检测到某一个属性（其值可以在POM中通过${名称}引用），其拥有对应的名称和值，Profile就会被激活。如果值
+                字段是空的，那么存在属性名称字段就会激活profile，否则按区分大小写方式匹配属性值字段-->
+                <property>
+                    <!--激活profile的属性的名称-->
+                    <name>mavenVersion</name>
+                    <!--激活profile的属性的值-->
+                    <value>2.0.3</value>
+                </property>
+                <!--提供一个文件名，通过检测该文件的存在或不存在来激活profile。missing检查文件是否存在，如果不存在则激活
+                profile。另一方面，exists则会检查文件是否存在，如果存在则激活profile。-->
+                <file>
+                    <!--如果指定的文件存在，则激活profile。-->
+                    <exists>/usr/local/hudson/hudson-home/jobs/maven-guide-zh-to-production/workspace/</exists>
+                    <!--如果指定的文件不存在，则激活profile。-->
+                    <missing>/usr/local/hudson/hudson-home/jobs/maven-guide-zh-to-production/workspace/</missing>
+                </file>
+                <!--To see which profile will activate in a certain build, use the maven-help-plugin.-->
+                <!--mvn help:active-profiles-->
+            </activation>
+
+            <!--构建项目所需要的信息。这里的是base build，剩下的配置参见build元素-->
+            <build>
+                <!--当项目没有规定目标（Maven2 叫做阶段）时的默认值-->
+                <defaultGoal>install</defaultGoal>
+                <!--构建产生的所有文件存放的目录-->
+                <directory>${basedir}/target</directory>
+                <!--产生的构件的文件名，默认值是${artifactId}-${version}。-->
+                <finalName>${artifactId}-${version}</finalName>
+                <!--当filtering开关打开时，使用到的过滤器属性文件列表-->
+                <filters>
+                    <filter>filters/filter1.properties</filter>
+                </filters>
+
+                <!--这个元素描述了项目相关的所有资源路径列表，例如和项目相关的属性文件，这些资源被包含在最终的打包文件里。-->
+                <resources>
+                    <!--这个元素描述了项目相关或测试相关的所有资源路径-->
+                    <resource>
+                        <!--为主资源目录开启过滤，这是为了解析资源文件中的Maven属性，不同profiles-->
+                        <!-- 描述了资源的目标路径。该路径相对target/classes目录（例如${project.build.outputDirectory}）。
+                        举个例子，如果你想资源在特定的包里(org.apache.maven.messages)，你就必须该元素设置为org/apache/maven /messages。
+                        然而，如果你只是想把资源放到源码目录结构里，就不需要该配置。-->
+                        <targetPath>META-INF/plexus</targetPath>
+                        <!--描述存放资源的目录，该路径相对POM路径-->
+                        <directory>${basedir}/src/main/resources</directory>
+                        <!--是否使用参数值代替参数名。参数值取自properties元素或者文件里配置的属性，文件在filters元素里列出。-->
+                        <filtering>true</filtering>
+                        <!--下面是指定具体要过滤的文件-->
+                        <!--包含的模式列表，例如**/*.xml.-->
+                        <includes>
+                            <include>**/application*.yml</include>
+                            <include>**/application*.yaml</include>
+                            <include>**/application*.properties</include>
+                        </includes>
+                        <!--排除的模式列表，例如**/*.xml-->
+                        <excludes>
+                            <exclude>**/application*.yml</exclude>
+                            <exclude>**/application*.yaml</exclude>
+                            <exclude>**/application*.properties</exclude>
+                        </excludes>
+                    </resource>
+                </resources>
+
+                <!--这个元素描述了单元测试相关的所有资源路径，例如和单元测试相关的属性文件。-->
+                <testResources>
+                    <!--这个元素描述了测试相关的所有资源路径，参见build/resources/resource元素的说明-->
+                    <testResource/>
+                </testResources>
+
+                <!--子项目可以引用的默认插件信息。该插件配置项直到被引用时才会被解析或绑定到生命周期。给定插件的任何本地配置都会覆盖这里的配置-->
+                <pluginManagement>
+                    <!--使用的插件列表。-->
+                    <plugins>
+                        <!--plugin元素包含描述插件所需要的信息。-->
+                        <plugin>
+                            <!--插件在仓库里的group ID-->
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <!--插件在仓库里的artifact ID-->
+                            <artifactId>maven-jar-plugin</artifactId>
+                            <!--被使用的插件的版本（或版本范围）-->
+                            <version>2.6</version>
+                            <!--是否从该插件下载Maven扩展（例如打包和类型处理器），由于性能原因，只有在真需要下载时，该元素才被设置成enabled。-->
+                            <extensions>false</extensions>
+                            <!--任何配置是否被传播到子项目-->
+                            <inherited>true</inherited>
+
+                            <configuration>
+                                <classifier>test</classifier>
+                            </configuration>
+
+                            <!--项目引入插件所需要的额外依赖-->
+                            <dependencies>
+                                <!--参见dependencies/dependency元素-->
+                                <dependency>
+                                    <groupId>javax.servlet</groupId>
+                                    <artifactId>jstl</artifactId>
+                                    <version>${jstl.version}</version>
+                                </dependency>
+                            </dependencies>
+
+                            <!--在构建生命周期中执行一组目标的配置。每个目标可能有不同的配置。-->
+                            <executions>
+                                <!--execution元素包含了插件执行需要的信息-->
+                                <execution>
+                                    <!--执行目标的标识符，用于标识构建过程中的目标，或者匹配继承过程中需要合并的执行目标-->
+                                    <id>echodir</id>
+                                    <!--绑定了目标的构建生命周期阶段，如果省略，目标会被绑定到源数据里配置的默认阶段-->
+                                    <phase>verify</phase>
+                                    <!--配置的执行目标-->
+                                    <goals>
+                                        <goal>run</goal>
+                                    </goals>
+                                    <!--配置是否被传播到子POM-->
+                                    <inherited>false</inherited>
+                                    <!--作为DOM对象的配置-->
+                                    <configuration>
+                                        <tasks>
+                                            <echo>Build Dir: ${project.build.directory}</echo>
+                                        </tasks>
+                                    </configuration>
+                                </execution>
+                            </executions>
+
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+
+                <!--使用的插件列表-->
+                <plugins>
+                    <!--配置同上-->
+                    <plugin/>
+                </plugins>
+            </build>
+
+            <!--模块（有时称作子项目） 被构建成项目的一部分。列出的每个模块元素是指向该模块的目录的相对路径-->
+            <modules/>
+            <!--发现依赖和扩展的远程仓库列表。-->
+            <repositories/>
+            <!--发现插件的远程仓库列表，这些插件用于构建和报表-->
+            <pluginRepositories/>
+            <!--该元素描述了项目相关的所有依赖。 这些依赖组成了项目构建过程中的一个个环节。它们自动从项目定义的仓库中下载。要获取更多信息，请看项目依赖机制。-->
+            <dependencies/>
+            <!--不赞成使用. 现在Maven忽略该元素.-->
+            <reports/>
+            <!--该元素包括使用报表插件产生报表的规范。当用户执行“mvn site”，这些报表就会运行。 在页面导航栏能看到所有报表的链接。参见reporting元素-->
+            <reporting/>
+            <!--参见dependencyManagement元素-->
+            <dependencyManagement/>
+            <!--参见distributionManagement元素-->
+            <distributionManagement/>
+            <!--参见properties元素-->
+            <properties/>
+        </profile>
+    </profiles>
+</project>

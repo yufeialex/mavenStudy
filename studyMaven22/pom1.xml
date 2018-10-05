@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <groupId>com.founder.cms</groupId>
+    <artifactId>studyMaven-web</artifactId>
+    <version>3.1.2-SNAPSHOT</version>
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--pom的一些基本信息配置-->
+
+    <!--项目的名称, Maven产生的文档用-->
+    <name>studyMaven</name>
+    <!-- 项目的详细描述, Maven产生的文档用。当这个元素能够用HTML格式描述时（例如，CDATA中的文本会被解析器忽略，就可以包含HTML标签），不鼓励使用纯文本描述。
+    如果你需要修改产生的web站点的索引页面，你应该修改你自己的索引页文件，而不是调整这里的文档。-->
+    <description>聚合模块，也是项目的父模块</description>
+    <!--项目主页的URL, Maven产生的文档用-->
+    <url>http://www.XXX.com/</url>
+
+    <!--描述了这个项目构建环境中的前提条件。-->
+    <prerequisites>
+        <!--构建该项目或使用该插件所需要的Maven的最低版本-->
+        <maven>2.0.6</maven>
+    </prerequisites>
+
+    <!--项目的问题管理系统(Bugzilla, Jira, Scarab,或任何你喜欢的问题管理系统)的名称和URL，本例为 jira-->
+    <issueManagement>
+        <!--问题管理系统（例如jira）的名字，-->
+        <system>jira</system>
+        <!--该项目使用的问题管理系统的URL-->
+        <url>http://jira.baidu.com/banseon</url>
+    </issueManagement>
+
+    <!--项目持续集成信息-->
+    <ciManagement>
+        <!--持续集成系统的名字，例如continuum-->
+        <system>continuum</system>
+        <!--该项目使用的持续集成系统的URL（如果持续集成系统有web接口的话）。-->
+        <url>http://127.0.0.1:8080/continuum</url>
+        <!--构建完成时，需要通知的开发者/用户的配置项。包括被通知者信息和通知条件（错误，失败，成功，警告）-->
+        <notifiers>
+            <!--配置一种方式，当构建中断时，以该方式通知用户/开发者-->
+            <notifier>
+                <!--传送通知的途径-->
+                <type>mail</type>
+                <!--发生错误时是否通知-->
+                <sendOnError>true</sendOnError>
+                <!--构建失败时是否通知-->
+                <sendOnFailure>true</sendOnFailure>
+                <!--构建成功时是否通知-->
+                <sendOnSuccess>false</sendOnSuccess>
+                <!--发生警告时是否通知-->
+                <sendOnWarning>false</sendOnWarning>
+                <!--扩展配置项-->
+                <configuration>
+                    <!--不赞成使用。通知发送到哪里-->
+                    <address>continuum@127.0.0.1</address>
+                </configuration>
+            </notifier>
+        </notifiers>
+    </ciManagement>
+
+    <!--项目创建年份，4位数字。当产生版权信息时需要使用这个值。-->
+    <inceptionYear/>
+
+    <!--项目相关邮件列表信息-->
+    <mailingLists>
+        <!--该元素描述了项目相关的所有邮件列表。自动产生的网站引用这些信息。-->
+        <mailingList>
+            <!--邮件的名称-->
+            <name>Demo</name>
+            <!--发送邮件的地址或链接，如果是邮件地址，创建文档时，mailto: 链接会被自动创建-->
+            <post>banseon@126.com</post>
+            <!--订阅邮件的地址或链接，如果是邮件地址，创建文档时，mailto: 链接会被自动创建-->
+            <subscribe>banseon@126.com</subscribe>
+            <!--取消订阅邮件的地址或链接，如果是邮件地址，创建文档时，mailto: 链接会被自动创建-->
+            <unsubscribe>banseon@126.com</unsubscribe>
+            <!--你可以浏览邮件信息的URL-->
+            <archive>http:/hi.baidu.com/banseon/demo/dev/</archive>
+        </mailingList>
+    </mailingLists>
+
+    <!--项目开发者列表-->
+    <developers>
+        <!--某个项目开发者的信息-->
+        <developer>
+            <!--SCM里项目开发者的唯一标识符-->
+            <id>HELLO WORLD</id>
+            <!--项目开发者的全名-->
+            <name>banseon</name>
+            <!--项目开发者的email-->
+            <email>banseon@126.com</email>
+            <!--项目开发者的主页的URL-->
+            <url/>
+            <!--项目开发者在项目中扮演的角色，角色元素描述了各种角色-->
+            <roles>
+                <role>Project Manager</role>
+                <role>Architect</role>
+            </roles>
+            <!--项目开发者所属组织-->
+            <organization>demo</organization>
+            <!--项目开发者所属组织的URL-->
+            <organizationUrl>http://hi.baidu.com/banseon</organizationUrl>
+            <!--项目开发者属性，如即时消息如何处理等-->
+            <properties>
+                <dept>No</dept>
+            </properties>
+            <!--项目开发者所在时区， -11到12范围内的整数。-->
+            <timezone>-5</timezone>
+        </developer>
+    </developers>
+
+    <!--项目的其他贡献者列表-->
+    <contributors>
+        <!--项目的其他贡献者。参见developers/developer元素-->
+        <contributor>
+            <name/>
+            <email/>
+            <url/>
+            <organization/>
+            <organizationUrl/>
+            <roles/>
+            <timezone/>
+            <properties/>
+        </contributor>
+    </contributors>
+
+    <!--该元素描述了项目所有License列表。 应该只列出该项目的license列表，不要列出依赖项目的 license列表。如果列出多个license，用户可以选择它们中的一个而不是接受所有license。-->
+    <licenses>
+        <!--描述了项目的license，用于生成项目的web站点的license页面，其他一些报表和validation也会用到该元素。-->
+        <license>
+            <!--license用于法律上的名称-->
+            <name>Apache 2</name>
+            <!--官方的license正文页面的URL-->
+            <url>http://www.baidu.com/banseon/LICENSE-2.0.txt</url>
+            <!--项目分发的主要方式：
+              repo，可以从Maven库下载
+              manual， 用户必须手动下载和安装依赖-->
+            <distribution>repo</distribution>
+            <!--关于license的补充信息-->
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <!--代码仓库，就是svn地址，用于发布版本和打分支，connection是读取的地址，developerConnection是写的地址-->
+    <!--SCM(Source Control Management)标签允许你配置你的代码库，供Maven web站点和其它插件使用。-->
+    <scm>
+        <!--SCM的URL,该URL描述了版本库和如何连接到版本库。欲知详情，请看SCMs提供的URL格式和列表。该连接只读。-->
+        <connection>scm:svn:http://fzkb.founder.com.cn/svn/zhihui/studyMaven/trunk</connection>
+        <!--给开发者使用的，类似connection元素。即该连接不仅仅只读-->
+        <developerConnection>scm:svn:http://fzkb.founder.com.cn/svn/zhihui/studyMaven/trunk</developerConnection>
+        <!--当前代码的标签，在开发阶段默认为HEAD-->
+        <tag/>
+        <!--指向项目的可浏览SCM库（例如ViewVC或者Fisheye）的URL。-->
+        <url>http://svn.baidu.com/banseon</url>
+    </scm>
+
+    <!--描述项目所属组织的各种属性。Maven产生的文档用-->
+    <organization>
+        <!--组织的全名-->
+        <name>demo</name>
+        <!--组织主页的URL-->
+        <url>http://www.baidu.com/banseon</url>
+    </organization>
+
+    <!--用于配置远程仓库信息，这里可以配置公司的私服地址-->
+    <!--如果是私服还有私服的认证信息，那个要配置在setting.xml里面-->
+    <!--这个配置只对当前项目有效，如果全局有效，在setting.xml里面配置profile-->
+    <repositories>
+        <repository>
+            <!--需要唯一，中央仓库是用central，这里id与setting.xml里面不一致，说明下载应该不需要密码，但是部署需要-->
+            <id>founder</id>
+            <!--也可以是其他协议，浏览器可访问-->
+            <url>http://fzkb.founder.com.cn/nexus/content/groups/public/</url>
+            <!--为false表示不能从这里下载稳定版本-->
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <!--从远程仓库检查更新的频率，默认daily，还有never,-->
+                <!--always:每次构建都检查更新-->
+                <!--interval:X,每隔X分钟检查一次-->
+                <updatePolicy>daily</updatePolicy>
+                <!--warn：构建时候输出警告-->
+                <!--fail：遇到校验和错误就失败-->
+                <checksumPolicy>ignore</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

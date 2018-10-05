@@ -18,16 +18,6 @@
     <description>(必选) 知识服务核心功能</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.founder.cms</groupId>
-            <artifactId>studyMaven-common</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.founder.cms</groupId>
-            <artifactId>studyMaven-sys</artifactId>
-        </dependency>
-
         <!-- 范围依赖，作用：
              1、控制依赖与3种classpath，编译、测试、运行的关系，默认是compile，3种都有效
              2、影响传递依赖，具体参考笔记中图片。
